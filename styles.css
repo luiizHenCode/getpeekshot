@@ -713,6 +713,23 @@ body {
   margin-bottom: 16px;
 }
 
+@media (max-width: 640px) {
+  .modal-overlay {
+    padding: 0;
+    align-items: stretch;
+  }
+  .modal-content {
+    max-width: 100%;
+    width: 100%;
+    min-height: 100%;
+    border-radius: 0;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
+
 .download-timer {
   background: rgba(59, 130, 246, 0.06);
   border: 1px solid rgba(59, 130, 246, 0.15);
@@ -722,4 +739,19 @@ body {
   margin-top: 16px;
   display: none;
   animation: fade-up 0.3s ease-out;
+}
+
+@media (max-width: 640px) {
+  .modal-overlay {
+    padding: 0;
+    align-items: stretch;
+  }
+  .modal-content {
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+    max-width: none;
+    overflow-y: auto;
+    padding: 28px 20px;
+  }
 }
