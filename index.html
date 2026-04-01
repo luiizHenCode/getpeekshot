@@ -1,0 +1,1139 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PeekShot — The smarter screenshot companion for Mac</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: [
+                "-apple-system",
+                "BlinkMacSystemFont",
+                "SF Pro Display",
+                "SF Pro Text",
+                "Helvetica Neue",
+                "Arial",
+                "sans-serif",
+              ],
+            },
+            colors: {
+              surface: "#111113",
+              card: "#1a1a1e",
+              border: "rgba(255,255,255,0.07)",
+              accent: "#3b82f6",
+              muted: "#8a8a9a",
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/bold/style.css" />
+  </head>
+  <body class="text-white overflow-x-hidden">
+    <!-- ───────────────────── MODAL ───────────────────────── -->
+    <div
+      class="modal-overlay"
+      id="purchaseModal"
+      onclick="if (event.target === this) closePurchaseModal();">
+      <div class="modal-content">
+        <button
+          class="modal-close"
+          onclick="closePurchaseModal()"
+          aria-label="Close">
+          ×
+        </button>
+
+        <div class="text-center">
+          <div class="modal-icon-mini"><i class="ph-bold ph-confetti"></i></div>
+          <h3 class="modal-title-mini">Hold on a second!</h3>
+          <p class="modal-subtitle-mini">
+            Try <strong class="text-white">all features free</strong> for 7
+            days. No card needed.
+          </p>
+
+          <!-- Trial -->
+          <a
+            href="download/PeekShot-1.2.dmg"
+            download
+            class="btn-modal-primary"
+            onclick="handleDownload(event)">
+            <i class="ph-bold ph-download-simple"></i> Download Free Trial
+          </a>
+
+          <!-- Divider -->
+          <div class="modal-divider-mini">
+            <span>or buy with 20% off</span>
+          </div>
+
+          <!-- Coupon -->
+          <div class="coupon-mini">
+            <div class="coupon-code-mini" id="couponCode">20OFF</div>
+            <button
+              class="coupon-btn-mini"
+              id="copyCouponBtn"
+              onclick="copyCouponCode()">
+              <span class="copy-icon"><i class="ph-bold ph-copy"></i></span>
+              <span class="copy-text">Copy</span>
+            </button>
+          </div>
+
+          <!-- Buy -->
+          <a
+            href="https://buy.stripe.com/28E7sM8B52ki8jQdes6sw00"
+            target="_blank"
+            class="btn-modal-secondary">
+            <i class="ph-bold ph-credit-card"></i> Buy for $11.99
+          </a>
+
+          <button onclick="closePurchaseModal()" class="modal-close-text-mini">
+            Maybe later
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ───────────────────── THANK YOU MODAL ───────────────────────── -->
+    <div
+      class="modal-overlay"
+      id="thankYouModal"
+      onclick="if (event.target === this) closeThankYouModal();">
+      <div class="modal-content">
+        <button
+          class="modal-close"
+          onclick="closeThankYouModal()"
+          aria-label="Close">
+          ×
+        </button>
+
+        <div class="text-center">
+          <div class="modal-icon-mini">
+            <i class="ph-bold ph-check-circle"></i>
+          </div>
+          <h3 class="modal-title-mini">Thanks for downloading!</h3>
+          <p class="modal-subtitle-mini">
+            Your 7-day trial starts now.
+            <strong class="text-white">All features unlocked.</strong>
+          </p>
+
+          <!-- Download Timer -->
+          <div id="downloadTimer" class="download-timer">
+            <div class="flex items-center justify-center gap-2 text-blue-400">
+              <i class="ph-bold ph-download-simple animate-bounce"></i>
+              <span class="text-[13px] font-medium"
+                >Starting download in
+                <span id="countdownNumber" class="font-bold">5</span>
+                seconds</span
+              >
+            </div>
+          </div>
+
+          <!-- Installation Steps -->
+          <div class="thank-you-box">
+            <div class="text-left space-y-2 mb-4">
+              <p class="text-[13px] text-white/70 flex items-start gap-2">
+                <span class="text-blue-400 font-bold flex-shrink-0">1.</span>
+                <span
+                  >Open the .dmg file and drag PeekShot to Applications</span
+                >
+              </p>
+              <p class="text-[13px] text-white/70 flex items-start gap-2">
+                <span class="text-blue-400 font-bold flex-shrink-0">2.</span>
+                <span>Launch PeekShot — it appears in your menu bar</span>
+              </p>
+              <p class="text-[13px] text-white/70 flex items-start gap-2">
+                <span class="text-blue-400 font-bold flex-shrink-0">3.</span>
+                <span
+                  >Take a screenshot. PeekShot captures it automatically</span
+                >
+              </p>
+            </div>
+          </div>
+
+          <!-- Feedback Request -->
+          <div class="thank-you-highlight">
+            <p class="text-[14px] text-white mb-3">
+              <i class="ph-bold ph-chat-circle-dots"></i>
+              <strong>We'd love your feedback!</strong>
+            </p>
+            <p class="text-[13px] text-white/60 leading-relaxed mb-3">
+              Found a bug? Have a feature request? Want to share what you
+              think?<br />
+              Drop us a message anytime.
+            </p>
+            <a
+              href="mailto:luiizhencode@gmail.com?subject=PeekShot Feedback"
+              class="inline-flex items-center gap-2 text-[13px] text-blue-400 hover:text-blue-300 transition-colors">
+              <i class="ph-bold ph-envelope"></i>
+              <span>luiizhencode@gmail.com</span>
+            </a>
+          </div>
+
+          <!-- Buy Incentive -->
+          <div class="thank-you-cta">
+            <p class="text-[13px] text-white/50 mb-3">
+              If PeekShot saves you time during the trial, consider supporting
+              the project:
+            </p>
+            <button
+              onclick="
+                closeThankYouModal();
+                setTimeout(() => openPurchaseModal(), 300);
+              "
+              class="btn-modal-secondary w-full">
+              <i class="ph-bold ph-gift"></i> Get lifetime access — 20% OFF
+            </button>
+          </div>
+
+          <button onclick="closeThankYouModal()" class="modal-close-text-mini">
+            Got it, thanks!
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ───────────────────── NAV ─────────────────────────── -->
+    <nav
+      class="sticky top-0 z-50 border-b border-white/5"
+      style="background: rgba(17, 17, 19, 0.85); backdrop-filter: blur(20px)">
+      <div
+        class="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
+        <a
+          href="#"
+          class="flex items-center gap-2 font-semibold text-[15px] text-white">
+          <span class="text-xl"
+            ><img
+              src="assets/app_icon.png"
+              alt="PeekShot"
+              class="w-7 h-7 rounded-xl inline-block"
+          /></span>
+          PeekShot
+        </a>
+        <div
+          class="hidden md:flex items-center gap-8 text-[13px] text-white/50">
+          <a href="#features" class="hover:text-white transition-colors"
+            >Features</a
+          >
+          <a href="#showcase" class="hover:text-white transition-colors"
+            >See it in action</a
+          >
+          <a href="#pricing" class="hover:text-white transition-colors"
+            >Pricing</a
+          >
+          <a href="#faq" class="hover:text-white transition-colors">FAQ</a>
+        </div>
+        <a
+          href="download/PeekShot-1.2.dmg"
+          download
+          class="btn-blue text-white text-[13px] font-semibold px-5 py-2 rounded-full"
+          onclick="handleDownload(event)">
+          Download Free Trial
+        </a>
+      </div>
+    </nav>
+
+    <!-- ───────────────────── HERO ─────────────────────────── -->
+    <section
+      class="hero-glow relative pt-24 pb-16 px-6 text-center overflow-hidden">
+      <!-- promo pill -->
+      <div
+        class="inline-flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-1.5 text-[13px] text-white/60 mb-8 fade-up">
+        <span
+          class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse inline-block"></span>
+        Launch offer — 20% OFF with code&nbsp;
+        <span
+          class="coupon font-bold text-blue-400"
+          onclick="
+            navigator.clipboard.writeText('20OFF');
+            this.textContent = '✓ Copied!';
+          "
+          >20OFF</span
+        >
+      </div>
+
+      <h1
+        class="text-[56px] md:text-[76px] font-extrabold tracking-tight leading-none grad mb-6 fade-up d1">
+        Your screenshots,<br />finally organized.
+      </h1>
+
+      <p
+        class="text-[19px] text-white/50 leading-relaxed max-w-xl mx-auto mb-10 fade-up d2">
+        PeekShot lives quietly in your menu bar and automatically captures,
+        annotates, and shares every screenshot you take — with zero effort.
+      </p>
+
+      <div
+        class="flex flex-col sm:flex-row items-center justify-center gap-3 fade-up d3">
+        <a
+          href="download/PeekShot-1.2.dmg"
+          download
+          class="btn-blue text-white font-semibold text-[15px] px-8 py-3.5 rounded-full inline-block"
+          onclick="handleDownload(event)">
+          <i class="ph-bold ph-download-simple"></i> Download Free Trial
+        </a>
+        <a
+          href="#features"
+          class="btn-ghost font-semibold text-[15px] px-8 py-3.5 rounded-full inline-block">
+          See all features <i class="ph-bold ph-arrow-right"></i>
+        </a>
+      </div>
+
+      <p class="mt-5 text-[13px] text-white/30 fade-up d3">
+        7-day free trial · No credit card · macOS only
+      </p>
+
+      <!-- hero carousel -->
+      <div class="max-w-4xl mx-auto mt-16">
+        <div class="relative">
+          <div class="overflow-hidden rounded-2xl">
+            <div class="carousel-track" id="carouselTrack">
+              <div class="carousel-slide">
+                <img
+                  src="assets/asset1.png"
+                  alt="Capture. Copy. Annotate. Share." />
+              </div>
+              <div class="carousel-slide">
+                <img src="assets/asset2.png" alt="Annotate in seconds" />
+              </div>
+              <div class="carousel-slide">
+                <img
+                  src="assets/asset3.png"
+                  alt="Upload. Copy link. Share. Done." />
+              </div>
+              <div class="carousel-slide">
+                <img src="assets/asset4.png" alt="No type. Copy." />
+              </div>
+            </div>
+          </div>
+          <button
+            class="carousel-btn prev"
+            onclick="carouselMove(-1)"
+            aria-label="Previous">
+            &#8592;
+          </button>
+          <button
+            class="carousel-btn next"
+            onclick="carouselMove(1)"
+            aria-label="Next">
+            &#8594;
+          </button>
+        </div>
+        <div class="thumb-strip" id="thumbStrip">
+          <img
+            src="assets/asset1.png"
+            class="thumb active"
+            onclick="carouselGo(0)"
+            alt="Capture. Copy. Annotate. Share." />
+          <img
+            src="assets/asset2.png"
+            class="thumb"
+            onclick="carouselGo(1)"
+            alt="Annotate in seconds" />
+          <img
+            src="assets/asset3.png"
+            class="thumb"
+            onclick="carouselGo(2)"
+            alt="Upload. Copy link. Share. Done." />
+          <img
+            src="assets/asset4.png"
+            class="thumb"
+            onclick="carouselGo(3)"
+            alt="No type. Copy." />
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────────────────── SOCIAL PROOF ────────────────── -->
+    <section class="py-16 px-6 reveal">
+      <div class="max-w-3xl mx-auto text-center">
+        <p
+          class="text-[12px] font-bold text-blue-400 uppercase tracking-[0.15em] mb-4">
+          Who uses PeekShot
+        </p>
+        <h2
+          class="text-[32px] font-bold tracking-tight grad mb-3 leading-tight">
+          Honest as it gets.
+        </h2>
+        <p
+          class="text-[16px] text-white/40 mb-12 leading-relaxed max-w-md mx-auto">
+          We built PeekShot because we needed it. We use it every single day.
+          That's the whole story.
+        </p>
+
+        <div class="flex flex-col sm:flex-row gap-5 justify-center">
+          <!-- Luiz -->
+          <div class="card rounded-2xl p-6 flex-1 text-left relative">
+            <div
+              class="absolute -top-3 left-5 bg-blue-500 text-white text-[10px] font-bold px-3 py-0.5 rounded-full tracking-wider">
+              CREATOR
+            </div>
+            <div class="flex items-center gap-3 mb-4 mt-2">
+              <div
+                class="w-10 h-10 rounded-full flex items-center justify-center text-lg font-bold flex-shrink-0"
+                style="background: linear-gradient(135deg, #3b82f6, #6366f1)">
+                L
+              </div>
+              <div>
+                <p class="font-semibold text-white text-[14px]">
+                  Luiz Henrique
+                </p>
+                <p class="text-[12px] text-white/40">
+                  Developer &amp; designer · Builder of this thing
+                </p>
+              </div>
+            </div>
+            <p class="text-[14px] text-white/60 leading-relaxed">
+              "macOS gives you two options: save to Desktop and go hunt for it
+              later, or keep it in the clipboard and lose it the moment you copy
+              something else — and neither lets you edit on the spot. That gap
+              annoyed me enough to build PeekShot."
+            </p>
+            <p class="mt-3 text-[12px] text-blue-400/70">
+              📸 Using since day 0
+            </p>
+          </div>
+
+          <!-- Nicola -->
+          <div class="card rounded-2xl p-6 flex-1 text-left relative">
+            <div
+              class="absolute -top-3 left-5 text-[10px] font-bold px-3 py-0.5 rounded-full tracking-wider"
+              style="
+                background: rgba(255, 255, 255, 0.08);
+                color: rgba(255, 255, 255, 0.5);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+              ">
+              FIRST USER
+            </div>
+            <div class="flex items-center gap-3 mb-4 mt-2">
+              <div
+                class="w-10 h-10 rounded-full flex items-center justify-center text-lg font-bold flex-shrink-0"
+                style="background: linear-gradient(135deg, #10b981, #3b82f6)">
+                N
+              </div>
+              <div>
+                <p class="font-semibold text-white text-[14px]">
+                  Nicolas Pimenta
+                </p>
+                <p class="text-[12px] text-white/40">
+                  Developer · Guinea pig #1
+                </p>
+              </div>
+            </div>
+            <p class="text-[14px] text-white/60 leading-relaxed">
+              "He sent me a .dmg and said 'try this'. I opened it, took a
+              screenshot, and it just appeared. No setup. The annotation tool is
+              dead simple — no bloat, just what you need. And the fact that it
+              catches iPhone screenshots automatically? That alone hooked me."
+            </p>
+            <p class="mt-3 text-[12px] text-emerald-400/70">
+              ✓ Unsolicited opinion (well, almost)
+            </p>
+          </div>
+        </div>
+
+        <p class="mt-8 text-[13px] text-white/25">
+          2 real users · 0 fake reviews · 100% built by people who use it
+        </p>
+      </div>
+    </section>
+
+    <!-- ───────────────────── FEATURES ─────────────────────── -->
+    <section id="features" class="py-24 px-6 reveal">
+      <div class="max-w-5xl mx-auto">
+        <p
+          class="text-[12px] font-bold text-blue-400 text-center uppercase tracking-[0.15em] mb-4">
+          Features
+        </p>
+        <h2
+          class="text-[44px] font-bold tracking-tight text-center grad mb-3 leading-tight">
+          Everything you need.<br />Nothing you don't.
+        </h2>
+        <p
+          class="text-[17px] text-white/40 text-center max-w-lg mx-auto mb-16 leading-relaxed">
+          One tiny menu bar app that replaces a dozen tools — and stays
+          completely out of your way.
+        </p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div class="card rounded-2xl p-6 feature-card">
+            <div class="feature-icon"><i class="ph-bold ph-camera"></i></div>
+            <h3 class="font-semibold text-[15px] text-white mb-2">
+              Automatic Capture
+            </h3>
+            <p class="text-[14px] text-white/40 leading-relaxed">
+              Every screenshot appears instantly. No import, no extra steps — it
+              just works in the background.
+            </p>
+          </div>
+
+          <div class="card rounded-2xl p-6 feature-card">
+            <div class="feature-icon">
+              <i class="ph-bold ph-pencil-line"></i>
+            </div>
+            <h3 class="font-semibold text-[15px] text-white mb-2">
+              Annotations
+            </h3>
+            <p class="text-[14px] text-white/40 leading-relaxed">
+              Arrows, shapes, highlights and text directly on your screenshots.
+              Fast canvas, no heavy apps.
+            </p>
+          </div>
+
+          <div class="card rounded-2xl p-6 feature-card">
+            <div class="feature-icon"><i class="ph-bold ph-qr-code"></i></div>
+            <h3 class="font-semibold text-[15px] text-white mb-2">
+              Auto QR Detection
+            </h3>
+            <p class="text-[14px] text-white/40 leading-relaxed">
+              Detects one or multiple QR codes in any screenshot automatically.
+              Copy the value or open it directly in the browser if it's a link.
+            </p>
+          </div>
+
+          <div class="card rounded-2xl p-6 feature-card">
+            <div class="feature-icon"><i class="ph-bold ph-text-aa"></i></div>
+            <h3 class="font-semibold text-[15px] text-white mb-2">
+              Copy Text from Images
+            </h3>
+            <p class="text-[14px] text-white/40 leading-relaxed">
+              See text in a screenshot? Copy it instantly — no retyping. Works
+              on code, error messages, receipts, anything.
+            </p>
+          </div>
+
+          <div class="card rounded-2xl p-6 feature-card">
+            <div class="feature-icon">
+              <i class="ph-bold ph-eyedropper"></i>
+            </div>
+            <h3 class="font-semibold text-[15px] text-white mb-2">
+              Color Picker
+            </h3>
+            <p class="text-[14px] text-white/40 leading-relaxed">
+              Pick any color from anywhere on screen. Full history of every
+              color you've sampled.
+            </p>
+          </div>
+
+          <div class="card rounded-2xl p-6 feature-card">
+            <div class="feature-icon">
+              <i class="ph-bold ph-cloud-arrow-up"></i>
+            </div>
+            <h3 class="font-semibold text-[15px] text-white mb-2">
+              Imgur Upload
+            </h3>
+            <p class="text-[14px] text-white/40 leading-relaxed">
+              One click to upload to Imgur and copy the public link — ready to
+              share anywhere.
+            </p>
+          </div>
+
+          <div class="card rounded-2xl p-6 feature-card">
+            <div class="feature-icon">
+              <i class="ph-bold ph-device-mobile"></i>
+            </div>
+            <h3 class="font-semibold text-[15px] text-white mb-2">
+              iPhone Integration
+            </h3>
+            <p class="text-[14px] text-white/40 leading-relaxed">
+              Images copied on iPhone appear via Universal Clipboard —
+              automatically, no AirDrop needed.
+            </p>
+          </div>
+
+          <div class="card rounded-2xl p-6 feature-card">
+            <div class="feature-icon">
+              <i class="ph-bold ph-hard-drives"></i>
+            </div>
+            <h3 class="font-semibold text-[15px] text-white mb-2">
+              Local Backups
+              <span class="text-[11px] font-normal text-white/30 ml-1"
+                >optional</span
+              >
+            </h3>
+            <p class="text-[14px] text-white/40 leading-relaxed">
+              Enable it in settings and PeekShot keeps a permanent copy of every
+              screenshot — even if the original is deleted from your Desktop.
+            </p>
+          </div>
+
+          <div class="card rounded-2xl p-6 feature-card">
+            <div class="feature-icon"><i class="ph-bold ph-keyboard"></i></div>
+            <h3 class="font-semibold text-[15px] text-white mb-2">
+              Global Shortcut
+            </h3>
+            <p class="text-[14px] text-white/40 leading-relaxed">
+              Press
+              <kbd
+                class="bg-white/10 border border-white/10 rounded px-1.5 py-0.5 text-[11px] font-mono"
+                >⌘⇧Space</kbd
+              >
+              from anywhere to open PeekShot instantly.
+            </p>
+          </div>
+
+          <div class="card rounded-2xl p-6 feature-card">
+            <div class="feature-icon"><i class="ph-bold ph-stack"></i></div>
+            <h3 class="font-semibold text-[15px] text-white mb-2">
+              Full Library
+            </h3>
+            <p class="text-[14px] text-white/40 leading-relaxed">
+              Keeps your last 100 screenshots organized and one click away.
+              Clear all anytime — you're always in control.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────────────────── APP DEEP DIVE ────────────────── -->
+    <section id="showcase" class="py-24 px-6 reveal">
+      <div class="max-w-5xl mx-auto">
+        <p
+          class="text-[12px] font-bold text-blue-400 text-center uppercase tracking-[0.15em] mb-4">
+          The app up close
+        </p>
+        <h2
+          class="text-[44px] font-bold tracking-tight text-center grad mb-3 leading-tight">
+          Built for every task.
+        </h2>
+        <p
+          class="text-[17px] text-white/40 text-center max-w-lg mx-auto mb-16 leading-relaxed">
+          Four dedicated windows. Each one stripped down to exactly what you
+          need — nothing more.
+        </p>
+
+        <!-- bento row 1 -->
+        <div class="flex flex-col md:flex-row gap-4 mb-4">
+          <!-- annotate — wide -->
+          <div
+            class="relative md:flex-[2] rounded-2xl overflow-hidden"
+            style="
+              background: #1a1a1e;
+              border: 1px solid rgba(255, 255, 255, 0.07);
+            ">
+            <img
+              src="assets/annotate.png"
+              alt="Annotation editor — draw arrows, shapes and highlights directly on screenshots"
+              class="w-full block" />
+            <div
+              class="absolute bottom-0 left-0 right-0 p-5"
+              style="
+                background: linear-gradient(
+                  to top,
+                  rgba(0, 0, 0, 0.75),
+                  transparent
+                );
+              ">
+              <span
+                class="text-[11px] font-bold text-blue-400 uppercase tracking-widest"
+                >Annotate</span
+              >
+              <p class="text-[15px] font-semibold text-white mt-0.5">
+                Draw, highlight and mark what matters
+              </p>
+            </div>
+          </div>
+          <!-- main window — narrow -->
+          <div
+            class="relative md:flex-[1] rounded-2xl overflow-hidden"
+            style="
+              background: #1a1a1e;
+              border: 1px solid rgba(255, 255, 255, 0.07);
+            ">
+            <img
+              src="assets/main_window.png"
+              alt="PeekShot main popover — your latest screenshots one click away"
+              class="w-full block" />
+            <div
+              class="absolute bottom-0 left-0 right-0 p-5"
+              style="
+                background: linear-gradient(
+                  to top,
+                  rgba(0, 0, 0, 0.75),
+                  transparent
+                );
+              ">
+              <span
+                class="text-[11px] font-bold text-blue-400 uppercase tracking-widest"
+                >Menu Bar</span
+              >
+              <p class="text-[15px] font-semibold text-white mt-0.5">
+                One click away, always ready
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- bento row 2 -->
+        <div class="flex flex-col md:flex-row gap-4">
+          <!-- color picker — narrow -->
+          <div
+            class="relative md:flex-[1] rounded-2xl overflow-hidden"
+            style="
+              background: #1a1a1e;
+              border: 1px solid rgba(255, 255, 255, 0.07);
+            ">
+            <img
+              src="assets/pick_color.png"
+              alt="Color Picker — sample any pixel on screen with full history"
+              class="w-full block" />
+            <div
+              class="absolute bottom-0 left-0 right-0 p-5"
+              style="
+                background: linear-gradient(
+                  to top,
+                  rgba(0, 0, 0, 0.75),
+                  transparent
+                );
+              ">
+              <span
+                class="text-[11px] font-bold text-blue-400 uppercase tracking-widest"
+                >Color Picker</span
+              >
+              <p class="text-[15px] font-semibold text-white mt-0.5">
+                Sample any pixel, keep the history
+              </p>
+            </div>
+          </div>
+          <!-- library — wide -->
+          <div
+            class="relative md:flex-[2] rounded-2xl overflow-hidden"
+            style="
+              background: #1a1a1e;
+              border: 1px solid rgba(255, 255, 255, 0.07);
+            ">
+            <img
+              src="assets/library.png"
+              alt="Screenshot Library — full history, searchable and always at hand"
+              class="w-full block" />
+            <div
+              class="absolute bottom-0 left-0 right-0 p-5"
+              style="
+                background: linear-gradient(
+                  to top,
+                  rgba(0, 0, 0, 0.75),
+                  transparent
+                );
+              ">
+              <span
+                class="text-[11px] font-bold text-blue-400 uppercase tracking-widest"
+                >Library</span
+              >
+              <p class="text-[15px] font-semibold text-white mt-0.5">
+                Last 100 shots, always at hand
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────────────────── HOW IT WORKS ─────────────────── -->
+    <section class="py-24 px-6 reveal">
+      <div class="max-w-5xl mx-auto">
+        <p
+          class="text-[12px] font-bold text-blue-400 text-center uppercase tracking-[0.15em] mb-4">
+          How it works
+        </p>
+        <h2
+          class="text-[44px] font-bold tracking-tight text-center grad mb-3 leading-tight">
+          Up and running<br />in 30 seconds.
+        </h2>
+        <p
+          class="text-[17px] text-white/40 text-center max-w-lg mx-auto mb-16 leading-relaxed">
+          No configuration, no learning curve. It just runs silently in the
+          background.
+        </p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div class="text-center px-4">
+            <div
+              class="w-10 h-10 rounded-2xl btn-blue text-white font-bold text-[16px] flex items-center justify-center mx-auto mb-4">
+              1
+            </div>
+            <h3 class="font-semibold text-[15px] text-white mb-2">
+              Download & Launch
+            </h3>
+            <p class="text-[14px] text-white/40 leading-relaxed">
+              Open PeekShot. It appears in your menu bar — no dock icon, no
+              wizard.
+            </p>
+          </div>
+          <div class="text-center px-4">
+            <div
+              class="w-10 h-10 rounded-2xl btn-blue text-white font-bold text-[16px] flex items-center justify-center mx-auto mb-4">
+              2
+            </div>
+            <h3 class="font-semibold text-[15px] text-white mb-2">
+              Take a Screenshot
+            </h3>
+            <p class="text-[14px] text-white/40 leading-relaxed">
+              Use macOS's native tool as usual. PeekShot captures it
+              automatically.
+            </p>
+          </div>
+          <div class="text-center px-4">
+            <div
+              class="w-10 h-10 rounded-2xl btn-blue text-white font-bold text-[16px] flex items-center justify-center mx-auto mb-4">
+              3
+            </div>
+            <h3 class="font-semibold text-[15px] text-white mb-2">
+              Click the Icon
+            </h3>
+            <p class="text-[14px] text-white/40 leading-relaxed">
+              Open the popover to annotate, copy, upload or share — all in one
+              place.
+            </p>
+          </div>
+          <div class="text-center px-4">
+            <div
+              class="w-10 h-10 rounded-2xl btn-blue text-white font-bold text-[16px] flex items-center justify-center mx-auto mb-4">
+              4
+            </div>
+            <h3 class="font-semibold text-[15px] text-white mb-2">
+              Never Lose a Shot
+            </h3>
+            <p class="text-[14px] text-white/40 leading-relaxed">
+              Your last 100 screenshots, always safe and at hand. Clear all
+              whenever you want.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────────────────── PRICING ───────────────────────── -->
+    <section id="pricing" class="py-24 px-6 reveal" style="background: #0d0d0f">
+      <div class="max-w-5xl mx-auto">
+        <p
+          class="text-[12px] font-bold text-blue-400 text-center uppercase tracking-[0.15em] mb-4">
+          Pricing
+        </p>
+        <h2
+          class="text-[44px] font-bold tracking-tight text-center grad mb-3 leading-tight">
+          Pay once.<br />Use forever.
+        </h2>
+        <p
+          class="text-[17px] text-white/40 text-center max-w-md mx-auto mb-16 leading-relaxed">
+          No subscription. No hidden fees. One honest price.
+        </p>
+
+        <div
+          class="flex flex-col md:flex-row gap-5 justify-center items-stretch max-w-2xl mx-auto">
+          <!-- Free Trial -->
+          <div class="card rounded-2xl p-8 flex-1 flex flex-col">
+            <p
+              class="text-[12px] font-bold text-white/30 uppercase tracking-[0.15em] mb-5">
+              Free Trial
+            </p>
+            <div class="flex items-baseline gap-2 mb-1">
+              <span class="text-[52px] font-bold tracking-tight text-white"
+                >$0</span
+              >
+            </div>
+            <p class="text-[13px] text-white/30 mb-8">
+              7 days · All features unlocked
+            </p>
+            <ul class="space-y-3 mb-8 flex-1">
+              <li class="flex items-center gap-2.5 text-[14px] text-white/70">
+                <span class="text-green-400 font-bold">✓</span> All features
+                unlocked
+              </li>
+              <li class="flex items-center gap-2.5 text-[14px] text-white/70">
+                <span class="text-green-400 font-bold">✓</span> No credit card
+                required
+              </li>
+              <li class="flex items-center gap-2.5 text-[14px] text-white/70">
+                <span class="text-green-400 font-bold">✓</span> Capture,
+                annotate & share
+              </li>
+              <li class="flex items-center gap-2.5 text-[14px] text-white/70">
+                <span class="text-green-400 font-bold">✓</span> QR detection &
+                color picker
+              </li>
+              <li class="flex items-center gap-2.5 text-[14px] text-white/70">
+                <span class="text-green-400 font-bold">✓</span> iPhone
+                integration
+              </li>
+            </ul>
+            <a
+              href="download/PeekShot-1.2.dmg"
+              download
+              class="block text-center bg-white/5 border border-white/10 hover:bg-white/10 text-white font-semibold text-[15px] py-3 rounded-xl transition-colors"
+              onclick="handleDownload(event)">
+              Download Free Trial
+            </a>
+          </div>
+
+          <!-- Lifetime -->
+          <div
+            class="flex-1 rounded-2xl p-8 relative text-white flex flex-col"
+            style="
+              background: linear-gradient(145deg, #1a2744, #111827);
+              border: 1px solid rgba(59, 130, 246, 0.3);
+              box-shadow: 0 0 60px rgba(59, 130, 246, 0.08);
+            ">
+            <div
+              class="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-blue-500 text-white text-[11px] font-bold px-4 py-1 rounded-full whitespace-nowrap tracking-wide">
+              🔥 20% OFF · Ends Apr 20
+            </div>
+            <p
+              class="text-[12px] font-bold text-white/30 uppercase tracking-[0.15em] mb-5">
+              Lifetime License
+            </p>
+            <div class="flex items-baseline gap-2 mb-1">
+              <span class="text-[52px] font-bold tracking-tight">$11.99</span>
+              <span class="text-[20px] text-white/30 line-through">$14.99</span>
+            </div>
+            <p class="text-[13px] text-white/40 mb-8">
+              One-time · Coupon&nbsp;
+              <span
+                class="coupon font-bold text-blue-400"
+                onclick="
+                  navigator.clipboard.writeText('20OFF');
+                  this.textContent = '✓ Copied!';
+                "
+                >20OFF</span
+              >
+              &nbsp;at checkout
+            </p>
+            <ul class="space-y-3 mb-8 flex-1">
+              <li class="flex items-center gap-2.5 text-[14px] text-white/80">
+                <span class="text-green-400 font-bold">✓</span> Lifetime license
+                — pay once
+              </li>
+              <li class="flex items-center gap-2.5 text-[14px] text-white/80">
+                <span class="text-green-400 font-bold">✓</span> All current &
+                future features
+              </li>
+              <li class="flex items-center gap-2.5 text-[14px] text-white/80">
+                <span class="text-green-400 font-bold">✓</span> Capture,
+                annotate & share
+              </li>
+              <li class="flex items-center gap-2.5 text-[14px] text-white/80">
+                <span class="text-green-400 font-bold">✓</span> QR detection &
+                color picker
+              </li>
+              <li class="flex items-center gap-2.5 text-[14px] text-white/80">
+                <span class="text-green-400 font-bold">✓</span> iPhone
+                integration
+              </li>
+              <li class="flex items-center gap-2.5 text-[14px] text-white/80">
+                <span class="text-green-400 font-bold">✓</span> Local backups
+                forever
+              </li>
+            </ul>
+            <button
+              onclick="openPurchaseModal()"
+              class="btn-blue block text-center text-white font-semibold text-[15px] py-3 rounded-xl w-full">
+              Buy PeekShot — $11.99
+            </button>
+          </div>
+        </div>
+        <p class="text-center text-[13px] text-white/25 mt-8">
+          macOS only · Direct sale — no App Store markup · License key sent to
+          your email
+        </p>
+      </div>
+    </section>
+
+    <!-- ───────────────────── FAQ ───────────────────────────── -->
+    <section id="faq" class="py-24 px-6 reveal">
+      <div class="max-w-2xl mx-auto">
+        <p
+          class="text-[12px] font-bold text-blue-400 text-center uppercase tracking-[0.15em] mb-4">
+          FAQ
+        </p>
+        <h2
+          class="text-[44px] font-bold tracking-tight text-center grad mb-14 leading-tight">
+          Questions.
+        </h2>
+
+        <div class="space-y-2">
+          <div class="faq-item card rounded-2xl overflow-hidden">
+            <button
+              class="w-full flex justify-between items-center px-6 py-5 text-left hover:bg-white/2 transition-colors"
+              onclick="this.closest('.faq-item').classList.toggle('open')">
+              <span class="font-semibold text-[15px] text-white pr-4"
+                >macOS already has screenshots built in. Why PeekShot?</span
+              >
+              <span
+                class="faq-icon text-white/30 text-2xl font-light flex-shrink-0"
+                >+</span
+              >
+            </button>
+            <div
+              class="faq-answer px-6 pb-5 text-[14px] text-white/40 leading-relaxed">
+              macOS lets you take screenshots — but it doesn't organize them,
+              annotate them, detect QR codes, upload them, or sync from your
+              iPhone. PeekShot fills every gap, automatically.
+            </div>
+          </div>
+
+          <div class="faq-item card rounded-2xl overflow-hidden">
+            <button
+              class="w-full flex justify-between items-center px-6 py-5 text-left hover:bg-white/2 transition-colors"
+              onclick="this.closest('.faq-item').classList.toggle('open')">
+              <span class="font-semibold text-[15px] text-white pr-4"
+                >What happens after the 7-day trial?</span
+              >
+              <span
+                class="faq-icon text-white/30 text-2xl font-light flex-shrink-0"
+                >+</span
+              >
+            </button>
+            <div
+              class="faq-answer px-6 pb-5 text-[14px] text-white/40 leading-relaxed">
+              The app locks and stops capturing new screenshots. Your existing
+              library stays visible. Enter a license key to unlock everything
+              instantly — no re-download needed. Your key is sent to your email
+              right after payment is confirmed.
+            </div>
+          </div>
+
+          <div class="faq-item card rounded-2xl overflow-hidden">
+            <button
+              class="w-full flex justify-between items-center px-6 py-5 text-left hover:bg-white/2 transition-colors"
+              onclick="this.closest('.faq-item').classList.toggle('open')">
+              <span class="font-semibold text-[15px] text-white pr-4"
+                >Is there a subscription?</span
+              >
+              <span
+                class="faq-icon text-white/30 text-2xl font-light flex-shrink-0"
+                >+</span
+              >
+            </button>
+            <div
+              class="faq-answer px-6 pb-5 text-[14px] text-white/40 leading-relaxed">
+              No. PeekShot is a one-time purchase. $11.99 with coupon
+              <strong class="text-white">20OFF</strong>, or $14.99 after April
+              20. You pay once and use it forever.
+            </div>
+          </div>
+
+          <div class="faq-item card rounded-2xl overflow-hidden">
+            <button
+              class="w-full flex justify-between items-center px-6 py-5 text-left hover:bg-white/2 transition-colors"
+              onclick="this.closest('.faq-item').classList.toggle('open')">
+              <span class="font-semibold text-[15px] text-white pr-4"
+                >Does PeekShot send my screenshots to a server?</span
+              >
+              <span
+                class="faq-icon text-white/30 text-2xl font-light flex-shrink-0"
+                >+</span
+              >
+            </button>
+            <div
+              class="faq-answer px-6 pb-5 text-[14px] text-white/40 leading-relaxed">
+              Never. All screenshots stay on your Mac. No account required. The
+              only network requests are for license validation and update
+              checks.
+            </div>
+          </div>
+
+          <div class="faq-item card rounded-2xl overflow-hidden">
+            <button
+              class="w-full flex justify-between items-center px-6 py-5 text-left hover:bg-white/2 transition-colors"
+              onclick="this.closest('.faq-item').classList.toggle('open')">
+              <span class="font-semibold text-[15px] text-white pr-4"
+                >Does iPhone integration require AirDrop?</span
+              >
+              <span
+                class="faq-icon text-white/30 text-2xl font-light flex-shrink-0"
+                >+</span
+              >
+            </button>
+            <div
+              class="faq-answer px-6 pb-5 text-[14px] text-white/40 leading-relaxed">
+              No. PeekShot captures images via Universal Clipboard — anything
+              copied on your iPhone appears automatically on your Mac. A Siri
+              Shortcut is also included to forward iPhone screenshots
+              automatically.
+            </div>
+          </div>
+
+          <div class="faq-item card rounded-2xl overflow-hidden">
+            <button
+              class="w-full flex justify-between items-center px-6 py-5 text-left hover:bg-white/2 transition-colors"
+              onclick="this.closest('.faq-item').classList.toggle('open')">
+              <span class="font-semibold text-[15px] text-white pr-4"
+                >Is it native or Electron?</span
+              >
+              <span
+                class="faq-icon text-white/30 text-2xl font-light flex-shrink-0"
+                >+</span
+              >
+            </button>
+            <div
+              class="faq-answer px-6 pb-5 text-[14px] text-white/40 leading-relaxed">
+              100% native Swift and SwiftUI. No Electron, no web views. Tiny
+              footprint — runs as a menu bar agent with no dock icon.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────────────────── FINAL CTA ─────────────────────── -->
+    <section class="py-28 px-6 text-center reveal" style="background: #0d0d0f">
+      <div class="max-w-xl mx-auto">
+        <h2
+          class="text-[44px] md:text-[52px] font-extrabold tracking-tight grad mb-5 leading-tight">
+          Ready to take control<br />of your screenshots?
+        </h2>
+        <p class="text-[17px] text-white/40 leading-relaxed mb-10">
+          Start your 7-day free trial. No credit card. All features unlocked
+          from day one.
+        </p>
+        <div
+          class="flex flex-col sm:flex-row items-center justify-center gap-3">
+          <a
+            href="download/PeekShot-1.2.dmg"
+            download
+            class="btn-blue text-white font-semibold text-[16px] px-9 py-4 rounded-full inline-block"
+            onclick="handleDownload(event)">
+            Download Free Trial
+          </a>
+          <button
+            onclick="openPurchaseModal()"
+            class="btn-ghost font-semibold text-[16px] px-9 py-4 rounded-full inline-block">
+            Buy for $11.99 →
+          </button>
+        </div>
+        <p class="mt-5 text-[13px] text-white/25">
+          macOS only · Promo ends April 20, 2026
+        </p>
+      </div>
+    </section>
+
+    <!-- ───────────────────── FOOTER ─────────────────────────── -->
+    <footer class="border-t border-white/5 py-10 px-6">
+      <div
+        class="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div
+          class="flex items-center gap-2 font-semibold text-[14px] text-white">
+          <span
+            ><img
+              src="assets/app_icon.png"
+              alt="PeekShot"
+              class="w-5 h-5 rounded-lg inline-block"
+          /></span>
+          PeekShot
+        </div>
+        <p class="text-[13px] text-white/25">
+          © 2026 PeekShot · macOS only · Direct sale
+        </p>
+        <p class="text-[13px] text-white/25">Made with ♥ for Mac power users</p>
+      </div>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
