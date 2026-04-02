@@ -512,6 +512,288 @@ body {
   color: rgba(255, 255, 255, 0.5);
 }
 
+/* ── PURCHASE MODAL REDESIGN ─────────────────────── */
+.pm-body {
+  text-align: center;
+}
+
+.pm-header {
+  margin-bottom: 20px;
+}
+
+.pm-app-icon-wrap {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 14px;
+}
+
+.pm-app-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 16px;
+  position: relative;
+  z-index: 1;
+  display: block;
+}
+
+.pm-icon-glow {
+  position: absolute;
+  inset: -6px;
+  border-radius: 22px;
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  opacity: 0.45;
+  z-index: 0;
+  filter: blur(12px);
+}
+
+.pm-headline {
+  font-size: 28px;
+  font-weight: 800;
+  color: white;
+  line-height: 1.15;
+  margin-bottom: 6px;
+  letter-spacing: -0.5px;
+}
+
+.pm-sub {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+/* Feature pills */
+.pm-features {
+  display: flex;
+  justify-content: center;
+  gap: 7px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.pm-feat {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(34, 197, 94, 0.08);
+  border: 1px solid rgba(34, 197, 94, 0.2);
+  color: #4ade80;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 11px;
+  border-radius: 100px;
+}
+
+/* Trial button */
+.pm-btn-trial {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  background: #3b82f6;
+  color: white;
+  font-size: 16px;
+  font-weight: 700;
+  padding: 15px;
+  border-radius: 14px;
+  text-decoration: none;
+  margin-bottom: 10px;
+  transition: all 0.2s;
+  box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4);
+  letter-spacing: -0.1px;
+}
+
+.pm-btn-trial:hover {
+  background: #2563eb;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 28px rgba(59, 130, 246, 0.55);
+}
+
+.pm-trust {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.4);
+  margin-bottom: 16px;
+}
+
+.pm-section-divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.pm-section-divider::before,
+.pm-section-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.pm-section-divider span {
+  font-size: 10px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.55);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  white-space: nowrap;
+}
+
+/* Buy card */
+.pm-buy-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 14px;
+  padding: 14px 14px 10px;
+  margin-bottom: 14px;
+  text-align: left;
+}
+
+.pm-buy-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.pm-buy-price {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+}
+
+.pm-price-now {
+  font-size: 20px;
+  font-weight: 800;
+  color: white;
+}
+
+.pm-price-was {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.4);
+  text-decoration: line-through;
+}
+
+.pm-discount-badge {
+  font-size: 11px;
+  font-weight: 700;
+  color: #fbbf24;
+  background: rgba(251, 191, 36, 0.1);
+  border: 1px solid rgba(251, 191, 36, 0.22);
+  border-radius: 100px;
+  padding: 3px 9px;
+}
+
+.pm-buy-row {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.pm-coupon-field {
+  flex: 1;
+  display: flex;
+  align-items: stretch;
+  background: rgba(59, 130, 246, 0.07);
+  border: 1px solid rgba(59, 130, 246, 0.22);
+  border-radius: 8px;
+  overflow: hidden;
+  min-width: 0;
+}
+
+.pm-coupon-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 10px;
+  min-width: 0;
+}
+
+.pm-coupon-lbl {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.45);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+.pm-coupon-val {
+  font-family: "SF Mono", "Monaco", "Consolas", monospace;
+  font-size: 14px;
+  font-weight: 800;
+  color: #60a5fa;
+  letter-spacing: 0.06em;
+}
+
+.pm-coupon-copy {
+  background: rgba(59, 130, 246, 0.12);
+  border: none;
+  border-left: 1px solid rgba(59, 130, 246, 0.22);
+  border-radius: 0;
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #60a5fa;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+.pm-coupon-copy:hover {
+  background: rgba(59, 130, 246, 0.22);
+}
+
+.pm-coupon-copy.copied {
+  background: rgba(34, 197, 94, 0.1);
+  border-color: rgba(34, 197, 94, 0.28);
+  color: #4ade80;
+}
+
+.pm-btn-buy {
+  background: linear-gradient(135deg, #1d4ed8 0%, #3b82f6 60%, #60a5fa 100%);
+  border: none;
+  border-radius: 8px;
+  padding: 9px 16px;
+  font-size: 13px;
+  font-weight: 700;
+  color: white;
+  text-decoration: none;
+  transition: all 0.2s;
+  white-space: nowrap;
+  box-shadow: 0 2px 12px rgba(59, 130, 246, 0.35);
+}
+
+.pm-btn-buy:hover {
+  background: linear-gradient(135deg, #1e40af 0%, #2563eb 60%, #3b82f6 100%);
+  box-shadow: 0 4px 18px rgba(59, 130, 246, 0.5);
+  transform: translateY(-1px);
+}
+
+.pm-buy-fine {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.35);
+  margin-top: 9px;
+  text-align: center;
+}
+
+/* Skip link */
+.pm-skip {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.38);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.2s;
+  padding: 4px;
+}
+
+.pm-skip:hover {
+  color: rgba(255, 255, 255, 0.6);
+}
+
 /* ── MICROINTERACTIONS ─────────────────────── */
 /* Scroll reveal animation */
 .reveal {

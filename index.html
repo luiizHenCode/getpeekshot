@@ -55,54 +55,79 @@
           ×
         </button>
 
-        <div class="text-center">
-          <div class="modal-icon-mini"><i class="ph-bold ph-confetti"></i></div>
-          <h3 class="modal-title-mini">Hold on a second!</h3>
-          <p class="modal-subtitle-mini">
-            Try <strong class="text-white">all features free</strong> for 7
-            days. No card needed.
-          </p>
+        <div class="pm-body">
 
-          <!-- Trial -->
+          <!-- App Icon + Headline -->
+          <div class="pm-header">
+            <div class="pm-app-icon-wrap">
+              <img src="assets/app_icon.png" class="pm-app-icon" alt="PeekShot" />
+              <div class="pm-icon-glow"></div>
+            </div>
+            <h3 class="pm-headline">Try it free first.</h3>
+            <p class="pm-sub">No card &nbsp;·&nbsp; All features &nbsp;·&nbsp; 7 days</p>
+          </div>
+
+          <!-- Feature pills -->
+          <div class="pm-features">
+            <span class="pm-feat"><i class="ph-bold ph-check"></i> No limits</span>
+            <span class="pm-feat"><i class="ph-bold ph-check"></i> No credit card</span>
+            <span class="pm-feat"><i class="ph-bold ph-check"></i> Full access</span>
+          </div>
+
+          <!-- Trial CTA -->
           <a
             href="download/PeekShot-1.2.1.dmg"
             download
-            class="btn-modal-primary"
+            class="pm-btn-trial"
             onclick="handleDownload(event)">
             <i class="ph-bold ph-download-simple"></i> Download Free Trial
           </a>
-          <p class="text-[11px] text-white/25 mt-[-8px] mb-2">
+          <p class="pm-trust">
             <i class="ph ph-seal-check"></i> Signed &amp; Notarized by Apple &nbsp;·&nbsp; <i class="ph ph-cpu"></i> Universal (Apple Silicon &amp; Intel)
           </p>
 
           <!-- Divider -->
-          <div class="modal-divider-mini">
-            <span>or buy with 20% off</span>
+          <div class="pm-section-divider">
+            <span>Already tried it? Own it forever.</span>
           </div>
 
-          <!-- Coupon -->
-          <div class="coupon-mini">
-            <div class="coupon-code-mini" id="couponCode">20OFF</div>
-            <button
-              class="coupon-btn-mini"
-              id="copyCouponBtn"
-              onclick="copyCouponCode()">
-              <span class="copy-icon"><i class="ph-bold ph-copy"></i></span>
-              <span class="copy-text">Copy</span>
-            </button>
+          <!-- Buy card -->
+          <div class="pm-buy-card">
+            <div class="pm-buy-top">
+              <div class="pm-buy-price">
+                <span class="pm-price-now">$11.99</span>
+                <span class="pm-price-was">$14.99</span>
+              </div>
+              <span class="pm-discount-badge">20% OFF</span>
+            </div>
+            <div class="pm-buy-row">
+              <div class="pm-coupon-field">
+                <div class="pm-coupon-wrap">
+                  <span class="pm-coupon-lbl">Code</span>
+                  <span class="pm-coupon-val" id="couponCode">20OFF</span>
+                </div>
+                <button
+                  class="pm-coupon-copy"
+                  id="copyCouponBtn"
+                  onclick="copyCouponCode()">
+                  <span class="copy-icon"><i class="ph-bold ph-copy"></i></span>
+                  <span class="copy-text">Copy</span>
+                </button>
+              </div>
+              <a
+                href="https://buy.stripe.com/28E7sM8B52ki8jQdes6sw00"
+                target="_blank"
+                class="pm-btn-buy">
+                Buy Now
+              </a>
+            </div>
+            <p class="pm-buy-fine">One-time purchase &nbsp;·&nbsp; No subscription</p>
           </div>
 
-          <!-- Buy -->
-          <a
-            href="https://buy.stripe.com/28E7sM8B52ki8jQdes6sw00"
-            target="_blank"
-            class="btn-modal-secondary">
-            <i class="ph-bold ph-credit-card"></i> Buy for $11.99
-          </a>
-
-          <button onclick="closePurchaseModal()" class="modal-close-text-mini">
-            Maybe later
+          <button onclick="closePurchaseModal()" class="pm-skip">
+            skip — I'll decide later
           </button>
+
         </div>
       </div>
     </div>
