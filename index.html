@@ -248,7 +248,21 @@
 
     <!-- ───────────────────── HERO ─────────────────────────── -->
     <section
-      class="hero-glow relative pt-24 pb-16 px-6 text-center overflow-hidden">
+      class="hero-glow relative pt-36 pb-32 px-6 text-center overflow-hidden">
+
+      <!-- video background -->
+      <video
+        autoplay muted loop playsinline
+        class="absolute inset-0 w-full h-full object-cover opacity-15 pointer-events-none"
+        style="z-index: 0;">
+        <source src="assets/hero_video.mp4" type="video/mp4" />
+      </video>
+      <!-- gradient overlay top + bottom -->
+      <div
+        class="absolute inset-0 pointer-events-none"
+        style="z-index: 1; background: linear-gradient(to bottom, #111113 0%, transparent 30%, transparent 70%, #111113 100%);"></div>
+
+      <div class="relative" style="z-index: 2;">
       <!-- promo pill -->
       <div
         class="inline-flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-1.5 text-[13px] text-white/60 mb-8 fade-up">
@@ -292,15 +306,15 @@
         </a>
       </div>
 
-      <p class="mt-5 text-[13px] text-white/30 fade-up d3">
+      <p class="mt-5 text-[13px] text-white/60 fade-up d3" style="text-shadow: 0 1px 6px rgba(0,0,0,0.9);">
         7-day free trial · No credit card · macOS only
       </p>
-      <p class="mt-2 text-[12px] text-white/20 fade-up d3">
+      <p class="mt-2 text-[12px] text-white/50 fade-up d3" style="text-shadow: 0 1px 6px rgba(0,0,0,0.9);">
         <i class="ph ph-seal-check"></i> Signed &amp; Notarized by Apple &nbsp;·&nbsp; <i class="ph ph-cpu"></i> Universal (Apple Silicon &amp; Intel)
       </p>
 
       <!-- hero carousel -->
-      <div class="max-w-4xl mx-auto mt-16">
+      <div class="max-w-4xl mx-auto mt-24">
         <div class="relative">
           <div class="overflow-hidden rounded-2xl">
             <div class="carousel-track" id="carouselTrack">
@@ -357,7 +371,7 @@
             onclick="carouselGo(3)"
             alt="No type. Copy." />
         </div>
-      </div>
+      </div><!-- end hero content wrapper -->
     </section>
 
     <!-- ───────────────────── SOCIAL PROOF ────────────────── -->
@@ -448,8 +462,8 @@
           </div>
         </div>
 
-        <p class="mt-8 text-[13px] text-white/25">
-          2 real users · 0 fake reviews · 100% built by people who use it
+        <p class="mt-8 text-[13px] text-white/50">
+          2 real users · 0 fake reviews · 100% built by people who use it — <strong class="text-white/70">be the next one.</strong>
         </p>
       </div>
     </section>
@@ -615,6 +629,16 @@
             <p class="text-[14px] text-white/40 leading-relaxed">
               Keeps your last 100 screenshots organized and one click away.
               Clear all anytime — you're always in control.
+            </p>
+          </div>
+
+          <div class="card rounded-2xl p-6 feature-card">
+            <div class="feature-icon"><i class="ph-bold ph-hand-grabbing"></i></div>
+            <h3 class="font-semibold text-[15px] text-white mb-2">
+              Drag &amp; Drop
+            </h3>
+            <p class="text-[14px] text-white/40 leading-relaxed">
+              Drag any screenshot directly from PeekShot and drop it wherever you need — no export, no Finder.
             </p>
           </div>
         </div>
