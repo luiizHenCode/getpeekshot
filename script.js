@@ -112,7 +112,7 @@ function startDownloadTimer(downloadUrl) {
       // Trigger the download
       const link = document.createElement("a");
       link.href = downloadUrl;
-      link.download = "PeekShot-1.2.dmg";
+      link.download = "PeekShot-1.2.1.dmg";
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
